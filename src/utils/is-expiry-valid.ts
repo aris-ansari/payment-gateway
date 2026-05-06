@@ -3,8 +3,7 @@ export function isExpiryValid(value: string) {
     return false;
   }
 
-  const [monthString, yearString] =
-    value.split("/");
+  const [monthString, yearString] = value.split("/");
 
   const month = Number(monthString);
   const year = Number(`20${yearString}`);
@@ -22,10 +21,7 @@ export function isExpiryValid(value: string) {
     return false;
   }
 
-  if (
-    year === currentYear &&
-    month < currentMonth
-  ) {
+  if (year === currentYear && month < currentMonth) {
     return false;
   }
 

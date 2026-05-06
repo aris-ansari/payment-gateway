@@ -5,20 +5,13 @@ import { isExpiryValid } from "./is-expiry-valid";
 
 export const paymentSchema = z
   .object({
-    cardholderName: z
-      .string()
-      .trim()
-      .min(3, "Cardholder name is required"),
+    cardholderName: z.string().trim().min(3, "Cardholder name is required"),
 
-    cardNumber: z
-      .string()
-      .min(15, "Card number is incomplete"),
+    cardNumber: z.string().min(15, "Card number is incomplete"),
 
-    expiryDate: z
-      .string()
-      .refine(isExpiryValid, {
-        message: "Enter a valid expiry date",
-      }),
+    expiryDate: z.string().refine(isExpiryValid, {
+      message: "Enter a valid expiry date",
+    }),
 
     cvv: z.string(),
 
@@ -26,21 +19,14 @@ export const paymentSchema = z
       .number({
         error: "Amount is required",
       })
-      .positive(
-        "Amount must be greater than 0"
-      ),
+      .positive("Amount must be greater than 0"),
 
     currency: z.enum(["INR", "USD"]),
   })
   .superRefine((values, context) => {
-    const cardType = detectCardType(
-      values.cardNumber
-    );
+    const cardType = detectCardType(values.cardNumber);
 
-    if (
-      cardType === "AMEX" &&
-      values.cvv.length !== 4
-    ) {
+    if (cardType === "AMEX" && values.cvv.length !== 4) {
       context.addIssue({
         code: "custom",
         path: ["cvv"],
@@ -48,10 +34,7 @@ export const paymentSchema = z
       });
     }
 
-    if (
-      cardType !== "AMEX" &&
-      values.cvv.length !== 3
-    ) {
+    if (cardType !== "AMEX" && values.cvv.length !== 3) {
       context.addIssue({
         code: "custom",
         path: ["cvv"],
@@ -60,6 +43,4 @@ export const paymentSchema = z
     }
   });
 
-export type PaymentFormValues = z.infer<
-  typeof paymentSchema
->;
+export type PaymentFormValues = z.infer<typeof paymentSchema>;

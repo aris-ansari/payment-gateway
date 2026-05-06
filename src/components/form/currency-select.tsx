@@ -1,14 +1,9 @@
 interface CurrencySelectProps {
   value: string;
-  onChange: (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => void;
+  onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
-export function CurrencySelect({
-  value,
-  onChange,
-}: CurrencySelectProps) {
+export function CurrencySelect({ value, onChange }: CurrencySelectProps) {
   return (
     <select
       value={value}

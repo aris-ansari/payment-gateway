@@ -5,11 +5,7 @@ export type PaymentStatus =
   | "FAILED"
   | "TIMEOUT";
 
-export type CardType =
-  | "VISA"
-  | "MASTERCARD"
-  | "AMEX"
-  | "UNKNOWN";
+export type CardType = "VISA" | "MASTERCARD" | "AMEX" | "UNKNOWN";
 
 export type Currency = "INR" | "USD";
 
@@ -30,5 +26,7 @@ export interface Transaction {
   status: PaymentStatus;
   timestamp: string;
   retryCount: number;
+  cardholderName: string;
+  cardLastFour: string;
   failureReason?: string;
 }

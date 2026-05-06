@@ -2,10 +2,7 @@
 
 import { useMemo } from "react";
 
-import {
-  Controller,
-  useForm,
-} from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -17,17 +14,18 @@ import { CurrencySelect } from "@/components/form/currency-select";
 
 import { CardPreview } from "@/components/payment/card-preview";
 
-import {
-  paymentSchema,
-  type PaymentFormValues,
-} from "@/utils/payment-schema";
+import { paymentSchema, type PaymentFormValues } from "@/utils/payment-schema";
 
 import { formatCardNumber } from "@/utils/format-card-number";
 import { formatExpiryDate } from "@/utils/format-expiry-date";
 
 import { detectCardType } from "@/utils/detect-card-type";
 
+import { usePayment } from "@/hooks/use-payment";
+
 export function PaymentForm() {
+  const { makePayment, isLoading } = usePayment();
+
   const {
     control,
     register,
@@ -49,9 +47,7 @@ export function PaymentForm() {
     },
   });
 
-  const cardholderName = watch(
-    "cardholderName"
-  );
+  const cardholderName = watch("cardholderName");
 
   const cardNumber = watch("cardNumber");
 
@@ -61,11 +57,29 @@ export function PaymentForm() {
 
   const cardType = useMemo(
     () => detectCardType(cardNumber || ""),
-    [cardNumber]
+    [cardNumber],
   );
 
-  function onSubmit(values: PaymentFormValues) {
-    console.log(values);
+  async function onSubmit(values: PaymentFormValues) {
+    try {
+      await makePayment({
+        transactionId: crypto.randomUUID(),
+
+        cardholderName: values.cardholderName,
+
+        cardNumber: values.cardNumber,
+
+        expiryDate: values.expiryDate,
+
+        cvv: values.cvv,
+
+        amount: values.amount,
+
+        currency: values.currency,
+      });
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (
@@ -77,15 +91,10 @@ export function PaymentForm() {
         cardType={cardType}
       />
 
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="space-y-5"
-      >
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-lg font-semibold">
-              Payment Details
-            </h2>
+            <h2 className="text-lg font-semibold">Payment Details</h2>
 
             <p className="text-sm text-slate-400">
               Enter your card information
@@ -105,9 +114,7 @@ export function PaymentForm() {
           <Input
             id="cardholderName"
             placeholder="John Doe"
-            aria-invalid={
-              !!errors.cardholderName
-            }
+            aria-invalid={!!errors.cardholderName}
             aria-describedby="cardholderName-error"
             {...register("cardholderName")}
           />
@@ -127,11 +134,7 @@ export function PaymentForm() {
                 placeholder="4242 4242 4242 4242"
                 maxLength={19}
                 onChange={(event) => {
-                  field.onChange(
-                    formatCardNumber(
-                      event.target.value
-                    )
-                  );
+                  field.onChange(formatCardNumber(event.target.value));
                 }}
               />
             )}
@@ -153,31 +156,17 @@ export function PaymentForm() {
                   placeholder="MM/YY"
                   maxLength={5}
                   onChange={(event) => {
-                    field.onChange(
-                      formatExpiryDate(
-                        event.target.value
-                      )
-                    );
+                    field.onChange(formatExpiryDate(event.target.value));
                   }}
                 />
               )}
             />
           </FormField>
 
-          <FormField
-            label="CVV"
-            htmlFor="cvv"
-            error={errors.cvv?.message}
-          >
+          <FormField label="CVV" htmlFor="cvv" error={errors.cvv?.message}>
             <Input
-              placeholder={
-                cardType === "AMEX"
-                  ? "1234"
-                  : "123"
-              }
-              maxLength={
-                cardType === "AMEX" ? 4 : 3
-              }
+              placeholder={cardType === "AMEX" ? "1234" : "123"}
+              maxLength={cardType === "AMEX" ? 4 : 3}
               {...register("cvv")}
             />
           </FormField>
@@ -193,10 +182,7 @@ export function PaymentForm() {
               control={control}
               name="currency"
               render={({ field }) => (
-                <CurrencySelect
-                  value={field.value}
-                  onChange={field.onChange}
-                />
+                <CurrencySelect value={field.value} onChange={field.onChange} />
               )}
             />
 
@@ -215,9 +201,9 @@ export function PaymentForm() {
         <Button
           type="submit"
           className="w-full"
-          disabled={!isValid}
+          disabled={!isValid || isLoading}
         >
-          Pay with {currency}
+          {isLoading ? "Processing Payment..." : `Pay with ${currency}`}
         </Button>
       </form>
     </div>

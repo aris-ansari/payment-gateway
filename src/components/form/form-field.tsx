@@ -5,12 +5,7 @@ interface FormFieldProps {
   children: React.ReactNode;
 }
 
-export function FormField({
-  label,
-  htmlFor,
-  error,
-  children,
-}: FormFieldProps) {
+export function FormField({ label, htmlFor, error, children }: FormFieldProps) {
   return (
     <div className="space-y-2">
       <label
@@ -23,10 +18,7 @@ export function FormField({
       {children}
 
       {error ? (
-        <p
-          id={`${htmlFor}-error`}
-          className="text-xs text-red-400"
-        >
+        <p id={`${htmlFor}-error`} className="text-xs text-red-400">
           {error}
         </p>
       ) : null}

@@ -5,10 +5,7 @@ interface CardProps {
   className?: string;
 }
 
-export function Card({
-  children,
-  className,
-}: CardProps) {
+export function Card({ children, className }: CardProps) {
   return (
     <div
       className={cn(
@@ -18,7 +15,7 @@ export function Card({
           "shadow-2xl shadow-black/20",
           "backdrop-blur-sm",
         ],
-        className
+        className,
       )}
     >
       {children}

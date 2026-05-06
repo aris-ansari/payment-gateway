@@ -5,8 +5,5 @@ export function formatExpiryDate(value: string) {
     return digits;
   }
 
-  return `${digits.slice(0, 2)}/${digits.slice(
-    2,
-    4
-  )}`;
+  return `${digits.slice(0, 2)}/${digits.slice(2, 4)}`;
 }

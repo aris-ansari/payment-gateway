@@ -4,11 +4,7 @@
   --background: #020617;
   --foreground: #f8fafc;
 
-  --font-sans:
-    var(--font-inter),
-    ui-sans-serif,
-    system-ui,
-    sans-serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 }
 
 html {

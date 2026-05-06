@@ -1,10 +1,7 @@
 import type { CardType } from "@/types/payment.types";
 
-export function detectCardType(
-  cardNumber: string
-): CardType {
-  const sanitized =
-    cardNumber.replace(/\s/g, "");
+export function detectCardType(cardNumber: string): CardType {
+  const sanitized = cardNumber.replace(/\s/g, "");
 
   if (/^4/.test(sanitized)) {
     return "VISA";

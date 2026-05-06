@@ -23,9 +23,7 @@ export function CardPreview({
       ].join(" ")}
     >
       <div className="flex items-center justify-between">
-        <div className="text-sm font-medium text-slate-300">
-          Virtual Card
-        </div>
+        <div className="text-sm font-medium text-slate-300">Virtual Card</div>
 
         <div className="rounded-full bg-white/10 px-3 py-1 text-xs font-semibold tracking-wide text-slate-100 backdrop-blur">
           {cardType}
@@ -34,8 +32,7 @@ export function CardPreview({
 
       <div className="mt-10">
         <p className="text-2xl font-semibold tracking-[0.2em] text-white">
-          {cardNumber ||
-            "•••• •••• •••• ••••"}
+          {cardNumber || "•••• •••• •••• ••••"}
         </p>
       </div>
 
