@@ -18,6 +18,8 @@ interface PaymentStore {
     updates: Partial<Transaction>,
   ) => void;
 
+  hydrateTransactions: (transactions: Transaction[]) => void;
+
   setSelectedTransaction: (transaction: Transaction | null) => void;
 }
 
@@ -49,6 +51,11 @@ export const usePaymentStore = create<PaymentStore>((set) => ({
           : transaction,
       ),
     })),
+
+  hydrateTransactions: (transactions) =>
+    set({
+      transactions,
+    }),
 
   setSelectedTransaction: (transaction) =>
     set({
