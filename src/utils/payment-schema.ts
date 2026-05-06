@@ -1,30 +1,64 @@
 import { z } from "zod";
 
-export const paymentSchema = z.object({
-  cardholderName: z
-    .string()
-    .min(3, "Cardholder name is required"),
+import { detectCardType } from "./detect-card-type";
+import { isExpiryValid } from "./is-expiry-valid";
 
-  cardNumber: z
-    .string()
-    .min(19, "Card number is incomplete"),
+export const paymentSchema = z
+  .object({
+    cardholderName: z
+      .string()
+      .trim()
+      .min(3, "Cardholder name is required"),
 
-  expiryDate: z
-    .string()
-    .min(5, "Expiry date is required"),
+    cardNumber: z
+      .string()
+      .min(15, "Card number is incomplete"),
 
-  cvv: z
-    .string()
-    .min(3, "CVV is required"),
+    expiryDate: z
+      .string()
+      .refine(isExpiryValid, {
+        message: "Enter a valid expiry date",
+      }),
 
-  amount: z
-    .number({
-      error: "Amount is required",
-    })
-    .positive("Amount must be greater than 0"),
+    cvv: z.string(),
 
-  currency: z.enum(["INR", "USD"]),
-});
+    amount: z
+      .number({
+        error: "Amount is required",
+      })
+      .positive(
+        "Amount must be greater than 0"
+      ),
+
+    currency: z.enum(["INR", "USD"]),
+  })
+  .superRefine((values, context) => {
+    const cardType = detectCardType(
+      values.cardNumber
+    );
+
+    if (
+      cardType === "AMEX" &&
+      values.cvv.length !== 4
+    ) {
+      context.addIssue({
+        code: "custom",
+        path: ["cvv"],
+        message: "Amex CVV must be 4 digits",
+      });
+    }
+
+    if (
+      cardType !== "AMEX" &&
+      values.cvv.length !== 3
+    ) {
+      context.addIssue({
+        code: "custom",
+        path: ["cvv"],
+        message: "CVV must be 3 digits",
+      });
+    }
+  });
 
 export type PaymentFormValues = z.infer<
   typeof paymentSchema
