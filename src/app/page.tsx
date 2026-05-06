@@ -1,3 +1,5 @@
+import { Card } from "@/components/common/card";
+
 export default function HomePage() {
   return (
     <main className="min-h-screen bg-slate-950 text-slate-100">
@@ -13,13 +15,13 @@ export default function HomePage() {
         </section>
 
         <section className="grid gap-6 lg:grid-cols-[1fr_380px]">
-          <div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-6 shadow-2xl shadow-black/20">
+          <Card className="p-6">
             Payment Form
-          </div>
+          </Card>
 
-          <div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-6 shadow-2xl shadow-black/20">
+          <Card className="p-6">
             Transaction History
-          </div>
+          </Card>
         </section>
       </div>
     </main>
