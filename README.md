@@ -1,36 +1,194 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Payment Gateway UI
 
-## Getting Started
+Production-ready fintech-inspired payment gateway UI built with Next.js App Router, TypeScript, Zustand, React Hook Form, Zod, and Tailwind CSS.
+The project focuses on scalable frontend architecture, resilient payment lifecycle handling, reusable UI systems, and production-quality user experience patterns.
 
-First, run the development server:
+## Live Demo
+
+[Live Application](https://payment-gateway-bay.vercel.app/)
+
+## Repository
+
+[GitHub Repository](https://github.com/aris-ansari/payment-gateway)
+
+---
+
+## Screenshots
+
+### Desktop
+
+![Desktop Preview](./public/screenshots/desktop.png)
+
+### Mobile
+
+![Mobile Preview](./public/screenshots/mobile-1.png)
+
+![Mobile Preview](./public/screenshots/mobile-2.png)
+
+---
+
+# Features
+
+## Payment Experience
+
+- Real-time payment form validation
+- Card formatting and card type detection
+- Live card preview
+- Currency selection (INR / USD)
+- Accessible form inputs
+- Responsive fintech-inspired UI
+
+---
+
+## Payment Lifecycle
+
+- Mock payment gateway API
+- Success / failure / timeout states
+- AbortController timeout handling
+- Loading and processing states
+- Retry payment functionality
+- Retry attempt tracking
+- Idempotent retry flow using same transaction ID
+
+---
+
+## Transaction Management
+
+- Zustand global state management
+- Persistent transaction history using localStorage
+- Transaction details dashboard
+- Selected transaction state
+- Status badges and timestamps
+
+---
+
+## Engineering & Architecture
+
+- Scalable folder structure
+- Reusable UI components
+- Clean TypeScript types
+- Business logic separated from UI
+- Service layer abstraction
+- Utility-first architecture
+- Responsive design
+- Accessibility improvements
+
+---
+
+# Key Highlights
+
+- Built with Next.js App Router and TypeScript
+- Implemented AbortController timeout handling
+- Designed scalable Zustand state architecture
+- Added idempotent retry payment flow
+- Persistent transaction history with localStorage
+- Responsive fintech-inspired UI system
+- Production-focused component architecture
+
+---
+
+# Tech Stack
+
+- Next.js App Router
+- TypeScript
+- Tailwind CSS
+- Zustand
+- React Hook Form
+- Zod
+- Lucide React
+
+---
+
+# Folder Structure
+
+```txt
+src/
+├── app/           # App Router pages and API routes
+├── components/    # Reusable UI and feature components
+├── constants/     # Shared constants
+├── hooks/         # Custom React hooks
+├── lib/           # Shared utilities and storage helpers
+├── services/      # API and business services
+├── store/         # Zustand global store
+├── types/         # Shared TypeScript types
+├── utils/         # Formatting and validation helpers
+```
+
+---
+
+# Getting Started
+
+## Install dependencies
+
+```bash
+npm install
+```
+
+## Run development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```txt
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+# Payment Simulation
 
-To learn more about Next.js, take a look at the following resources:
+The mock payment API simulates:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Successful payments
+- Failed payments
+- Timeout scenarios
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Timeout handling is implemented using AbortController.
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# Retry Logic
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Failed and timeout payments can be retried
+- Retry attempts are tracked
+- Same transaction ID is reused for retries
+- Maximum retry attempts enforced
+
+---
+
+# Deployment
+
+Deployed on Vercel.
+
+---
+
+# Design Direction
+
+The UI follows a modern fintech-inspired design system with:
+
+- Dark premium dashboard aesthetic
+- Indigo/electric blue accents
+- Responsive layouts
+- Accessible contrast ratios
+- Soft shadows and rounded surfaces
+- Minimal and production-focused styling
+
+---
+
+# Future Improvements
+
+- Advanced input masking with cursor preservation
+- Real payment gateway integration
+- Unit and integration testing
+- Authentication and user accounts
+- Analytics dashboard
+- Multi-currency conversion support
+
+---
+
+# Author
+
+Aris Ansari
