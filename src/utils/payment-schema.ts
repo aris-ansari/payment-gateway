@@ -7,7 +7,16 @@ export const paymentSchema = z
   .object({
     cardholderName: z.string().trim().min(3, "Cardholder name is required"),
 
-    cardNumber: z.string().min(15, "Card number is incomplete"),
+    cardNumber: z.string().refine(
+      (value) => {
+        const digits = value.replace(/\s/g, "");
+
+        return digits.length >= 15 && digits.length <= 16;
+      },
+      {
+        message: "Enter a valid card number",
+      },
+    ),
 
     expiryDate: z.string().refine(isExpiryValid, {
       message: "Enter a valid expiry date",

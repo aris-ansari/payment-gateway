@@ -2,6 +2,10 @@
 
 import { usePaymentStore } from "@/store/payment.store";
 
+import { formatDate } from "@/utils/format-date";
+
+import { StatusBadge } from "@/components/common/status-badge";
+
 export function TransactionHistory() {
   const transactions = usePaymentStore((state) => state.transactions);
 
@@ -29,6 +33,9 @@ export function TransactionHistory() {
               <p className="mt-1 text-sm text-slate-400">
                 **** **** **** {transaction.cardLastFour}
               </p>
+              <p className="mt-1 text-xs text-slate-500">
+                {formatDate(transaction.timestamp)}
+              </p>
             </div>
 
             <div className="text-right">
@@ -36,9 +43,9 @@ export function TransactionHistory() {
                 {transaction.currency} {transaction.amount}
               </p>
 
-              <p className="mt-1 text-xs text-slate-400">
-                {transaction.status}
-              </p>
+              <div className="mt-2">
+                <StatusBadge status={transaction.status} />
+              </div>
             </div>
           </div>
         </div>

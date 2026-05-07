@@ -200,6 +200,7 @@ export function PaymentForm() {
 
         <Button
           type="submit"
+          aria-busy={isLoading}
           className="w-full"
           disabled={!isValid || isLoading}
         >

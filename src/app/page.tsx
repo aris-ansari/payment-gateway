@@ -10,6 +10,8 @@ import { TransactionHistory } from "@/components/transaction/transaction-history
 
 import { useSyncTransactions } from "@/hooks/use-sync-transactions";
 
+import { RetryPayment } from "@/components/payment/retry-payment";
+
 export default function HomePage() {
   useSyncTransactions();
 
@@ -25,6 +27,8 @@ export default function HomePage() {
         </section>
 
         <PaymentStatus />
+
+        <RetryPayment />
 
         <section className="grid gap-6 lg:grid-cols-[1fr_380px]">
           <Card className="p-6">

@@ -13,8 +13,12 @@ import type { PaymentPayload, Transaction } from "@/types/payment.types";
 export function usePayment() {
   const [isLoading, setIsLoading] = useState(false);
 
-  const { setPaymentStatus, addTransaction, updateTransaction } =
-    usePaymentStore();
+  const {
+    setPaymentStatus,
+    addTransaction,
+    updateTransaction,
+    setLastPaymentPayload,
+  } = usePaymentStore();
 
   async function makePayment(
     payload: PaymentPayload,
@@ -30,6 +34,8 @@ export function usePayment() {
       setIsLoading(true);
 
       setPaymentStatus("PROCESSING");
+
+      setLastPaymentPayload(payload);
 
       if (!existingTransaction) {
         addTransaction({
@@ -47,7 +53,13 @@ export function usePayment() {
 
           cardholderName: payload.cardholderName,
 
-          cardLastFour: payload.cardNumber.slice(-4),
+          cardLastFour: payload.cardNumber.replace(/\s/g, "").slice(-4),
+        });
+      } else {
+        updateTransaction(payload.transactionId, {
+          status: "PROCESSING",
+
+          retryCount: existingTransaction.retryCount + 1,
         });
       }
 

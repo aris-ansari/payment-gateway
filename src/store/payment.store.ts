@@ -1,6 +1,10 @@
 import { create } from "zustand";
 
-import type { PaymentStatus, Transaction } from "@/types/payment.types";
+import type {
+  PaymentStatus,
+  Transaction,
+  PaymentPayload,
+} from "@/types/payment.types";
 
 interface PaymentStore {
   paymentStatus: PaymentStatus;
@@ -8,6 +12,8 @@ interface PaymentStore {
   transactions: Transaction[];
 
   selectedTransaction: Transaction | null;
+
+  lastPaymentPayload: PaymentPayload | null;
 
   setPaymentStatus: (status: PaymentStatus) => void;
 
@@ -21,6 +27,8 @@ interface PaymentStore {
   hydrateTransactions: (transactions: Transaction[]) => void;
 
   setSelectedTransaction: (transaction: Transaction | null) => void;
+
+  setLastPaymentPayload: (payload: PaymentPayload | null) => void;
 }
 
 export const usePaymentStore = create<PaymentStore>((set) => ({
@@ -29,6 +37,8 @@ export const usePaymentStore = create<PaymentStore>((set) => ({
   transactions: [],
 
   selectedTransaction: null,
+
+  lastPaymentPayload: null,
 
   setPaymentStatus: (status) =>
     set({
@@ -60,5 +70,10 @@ export const usePaymentStore = create<PaymentStore>((set) => ({
   setSelectedTransaction: (transaction) =>
     set({
       selectedTransaction: transaction,
+    }),
+
+  setLastPaymentPayload: (payload) =>
+    set({
+      lastPaymentPayload: payload,
     }),
 }));
