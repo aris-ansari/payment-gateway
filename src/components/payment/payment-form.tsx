@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 
 import { Controller, useForm } from "react-hook-form";
 
@@ -23,12 +23,17 @@ import { detectCardType } from "@/utils/detect-card-type";
 
 import { usePayment } from "@/hooks/use-payment";
 
+import { usePaymentStore } from "@/store/payment.store";
+
 export function PaymentForm() {
   const { makePayment, isLoading } = usePayment();
+
+  const paymentStatus = usePaymentStore((state) => state.paymentStatus);
 
   const {
     control,
     register,
+    reset,
     watch,
     handleSubmit,
     formState: { errors, isValid },
@@ -55,6 +60,19 @@ export function PaymentForm() {
 
   const currency = watch("currency");
 
+  useEffect(() => {
+    if (paymentStatus === "SUCCESS") {
+      reset({
+        cardholderName: "",
+        cardNumber: "",
+        expiryDate: "",
+        cvv: "",
+        amount: undefined,
+        currency,
+      });
+    }
+  }, [paymentStatus, reset]);
+
   const cardType = useMemo(
     () => detectCardType(cardNumber || ""),
     [cardNumber],
@@ -62,7 +80,7 @@ export function PaymentForm() {
 
   async function onSubmit(values: PaymentFormValues) {
     try {
-      await makePayment({
+      const response = await makePayment({
         transactionId: crypto.randomUUID(),
 
         cardholderName: values.cardholderName,
@@ -186,14 +204,26 @@ export function PaymentForm() {
               )}
             />
 
-            <Input
-              id="amount"
-              type="number"
-              placeholder="100"
-              className="flex-1"
-              {...register("amount", {
-                valueAsNumber: true,
-              })}
+            <Controller
+              control={control}
+              name="amount"
+              render={({ field }) => (
+                <Input
+                  id="amount"
+                  type="number"
+                  min={1}
+                  placeholder="100"
+                  className="flex-1"
+                  value={field.value ?? ""}
+                  onChange={(event) => {
+                    field.onChange(
+                      event.target.value === ""
+                        ? undefined
+                        : Number(event.target.value),
+                    );
+                  }}
+                />
+              )}
             />
           </div>
         </FormField>

@@ -9,8 +9,10 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Payment Gateway UI",
-  description: "Modern fintech payment gateway experience",
+  title: "Payment Gateway UI | Fintech Dashboard",
+
+  description:
+    "Production-ready payment gateway experience built with Next.js, TypeScript, Zustand, and Tailwind CSS.",
 };
 
 export default function RootLayout({

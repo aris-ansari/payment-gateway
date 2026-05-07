@@ -32,7 +32,8 @@ export function CardPreview({
 
       <div className="mt-10">
         <p className="text-2xl font-semibold tracking-[0.2em] text-white">
-          {cardNumber || "•••• •••• •••• ••••"}
+          {cardNumber ||
+            (cardType === "AMEX" ? "•••• •••••• •••••" : "•••• •••• •••• ••••")}
         </p>
       </div>
 
