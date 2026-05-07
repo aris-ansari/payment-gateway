@@ -26,6 +26,7 @@ export function RetryPayment() {
   }
 
   const canRetry =
+    !!lastPaymentPayload &&
     latestTransaction.retryCount < MAX_RETRY_ATTEMPTS &&
     (latestTransaction.status === "FAILED" ||
       latestTransaction.status === "TIMEOUT");

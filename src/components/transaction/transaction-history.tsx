@@ -9,10 +9,22 @@ import { StatusBadge } from "@/components/common/status-badge";
 export function TransactionHistory() {
   const transactions = usePaymentStore((state) => state.transactions);
 
+  const setSelectedTransaction = usePaymentStore(
+    (state) => state.setSelectedTransaction,
+  );
+
+  const selectedTransaction = usePaymentStore(
+    (state) => state.selectedTransaction,
+  );
+
   if (!transactions.length) {
     return (
-      <div className="flex min-h-[200px] items-center justify-center rounded-2xl border border-dashed border-slate-800">
-        <p className="text-sm text-slate-500">No transactions yet</p>
+      <div className="flex min-h-[220px] flex-col items-center justify-center rounded-2xl border border-dashed border-slate-800 px-6 text-center">
+        <p className="font-medium text-slate-300">No transactions yet</p>
+
+        <p className="mt-2 text-sm text-slate-500">
+          Your recent payment activity will appear here
+        </p>
       </div>
     );
   }
@@ -20,9 +32,15 @@ export function TransactionHistory() {
   return (
     <div className="space-y-3">
       {transactions.map((transaction) => (
-        <div
+        <button
           key={transaction.transactionId}
-          className="rounded-2xl border border-slate-800 bg-slate-900/80 p-4 transition-all hover:border-slate-700"
+          type="button"
+          onClick={() => setSelectedTransaction(transaction)}
+          className={`w-full rounded-2xl border p-4 text-left transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${
+            selectedTransaction?.transactionId === transaction.transactionId
+              ? "border-indigo-500 bg-slate-900"
+              : "border-slate-800 bg-slate-900/80 hover:border-slate-700 hover:bg-slate-900"
+          }`}
         >
           <div className="flex items-start justify-between">
             <div>
@@ -48,7 +66,7 @@ export function TransactionHistory() {
               </div>
             </div>
           </div>
-        </div>
+        </button>
       ))}
     </div>
   );

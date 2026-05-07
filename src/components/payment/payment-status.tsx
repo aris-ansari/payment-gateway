@@ -11,7 +11,7 @@ export function PaymentStatus() {
 
   if (paymentStatus === "PROCESSING") {
     return (
-      <div className="flex items-center gap-3 rounded-2xl border border-indigo-500/20 bg-indigo-500/10 p-4">
+      <div className="animate-in fade-in slide-in-from-top-2 flex items-center gap-3 rounded-2xl border border-indigo-500/20 bg-indigo-500/10 p-4">
         <Loader2 className="h-5 w-5 animate-spin text-indigo-400" />
 
         <div>
@@ -27,7 +27,7 @@ export function PaymentStatus() {
 
   if (paymentStatus === "SUCCESS") {
     return (
-      <div className="flex items-center gap-3 rounded-2xl border border-green-500/20 bg-green-500/10 p-4">
+      <div className="animate-in fade-in slide-in-from-top-2 flex items-center gap-3 rounded-2xl border border-green-500/20 bg-green-500/10 p-4">
         <CheckCircle2 className="h-5 w-5 text-green-400" />
 
         <div>
@@ -43,7 +43,7 @@ export function PaymentStatus() {
 
   if (paymentStatus === "FAILED") {
     return (
-      <div className="flex items-center gap-3 rounded-2xl border border-red-500/20 bg-red-500/10 p-4">
+      <div className="animate-in fade-in slide-in-from-top-2 flex items-center gap-3 rounded-2xl border border-red-500/20 bg-red-500/10 p-4">
         <AlertCircle className="h-5 w-5 text-red-400" />
 
         <div>
@@ -58,7 +58,7 @@ export function PaymentStatus() {
   }
 
   return (
-    <div className="flex items-center gap-3 rounded-2xl border border-yellow-500/20 bg-yellow-500/10 p-4">
+    <div className="animate-in fade-in slide-in-from-top-2 flex items-center gap-3 rounded-2xl border border-yellow-500/20 bg-yellow-500/10 p-4">
       <Timer className="h-5 w-5 text-yellow-400" />
 
       <div>

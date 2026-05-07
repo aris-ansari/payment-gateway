@@ -51,16 +51,30 @@ export const usePaymentStore = create<PaymentStore>((set) => ({
     })),
 
   updateTransaction: (transactionId, updates) =>
-    set((state) => ({
-      transactions: state.transactions.map((transaction) =>
+    set((state) => {
+      const updatedTransactions = state.transactions.map((transaction) =>
         transaction.transactionId === transactionId
           ? {
               ...transaction,
               ...updates,
             }
           : transaction,
-      ),
-    })),
+      );
+
+      const updatedSelectedTransaction =
+        state.selectedTransaction?.transactionId === transactionId
+          ? {
+              ...state.selectedTransaction,
+              ...updates,
+            }
+          : state.selectedTransaction;
+
+      return {
+        transactions: updatedTransactions,
+
+        selectedTransaction: updatedSelectedTransaction,
+      };
+    }),
 
   hydrateTransactions: (transactions) =>
     set({

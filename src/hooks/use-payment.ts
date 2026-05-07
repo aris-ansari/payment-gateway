@@ -18,6 +18,7 @@ export function usePayment() {
     addTransaction,
     updateTransaction,
     setLastPaymentPayload,
+    setSelectedTransaction,
   } = usePaymentStore();
 
   async function makePayment(
@@ -38,23 +39,27 @@ export function usePayment() {
       setLastPaymentPayload(payload);
 
       if (!existingTransaction) {
-        addTransaction({
+        const newTransaction = {
           transactionId: payload.transactionId,
 
           amount: payload.amount,
 
           currency: payload.currency,
 
-          status: "PROCESSING",
+          status: "PROCESSING" as const,
 
           timestamp: new Date().toISOString(),
 
-          retryCount: 0,
+          retryCount: 1,
 
           cardholderName: payload.cardholderName,
 
           cardLastFour: payload.cardNumber.replace(/\s/g, "").slice(-4),
-        });
+        };
+
+        addTransaction(newTransaction);
+
+        setSelectedTransaction(newTransaction);
       } else {
         updateTransaction(payload.transactionId, {
           status: "PROCESSING",
@@ -67,6 +72,8 @@ export function usePayment() {
 
       updateTransaction(payload.transactionId, {
         status: response.status,
+
+        failureReason: undefined,
       });
 
       setPaymentStatus(response.status);
